@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float pitchInput = Input.GetAxisRaw("Mouse Y");
+        float pitchInput = -Input.GetAxisRaw("Mouse Y");
         pitch += pitchInput * Time.deltaTime * rotationSpeed;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
         Quaternion pitchRotation = Quaternion.AngleAxis(pitch, Vector3.right);

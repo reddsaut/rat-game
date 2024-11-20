@@ -16,7 +16,7 @@ public class BallController : MonoBehaviour {
     public float speed = 7;
     public float groundDrag = 5;
     public float airDrag = 7;
-    bool canSwitch = false;
+    bool canSwitch = false; 
 
     [Header("Ground Check")]
     public float playerHeight = 1;

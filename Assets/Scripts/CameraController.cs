@@ -40,6 +40,12 @@ public class CameraController : MonoBehaviour
 
         transform.position = target.position + offset * distance;
         transform.rotation = Quaternion.LookRotation(-offset, Vector3.up);
+
+        RaycastHit hit;
+        Vector3 targetToCamera = transform.position - target.position;
+        if (Physics.Raycast(target.position, targetToCamera, out hit, distance, obstacleLayerMask)) {
+            transform.position = hit.point;
+        }
     }
 
 }

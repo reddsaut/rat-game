@@ -16,8 +16,8 @@ public class EnemyVision : MonoBehaviour
     
     private Collider playerCollider;
     private float howAlert; // 0 is not alert, 1 is hyper alert
-    private enum State {Patrol, Alert, Chase};
-    [SerializeField]  private State myState;
+    public enum State {Patrol, Alert, Chase};
+    [SerializeField]  public static State myState;
 
     private void Start()
     {
@@ -67,6 +67,7 @@ public class EnemyVision : MonoBehaviour
                     if (hit.collider == playerCollider)
                     {
                         howAlert += Time.deltaTime / alertTime;
+                        enemyMovement.target.position = hit.point;
                     } else
                     {
                         howAlert -= Time.deltaTime / alertTime / unalertModifier;// becomes alert 4x as fast as reduces alertness
@@ -79,7 +80,7 @@ public class EnemyVision : MonoBehaviour
         }
     }
 
-    private void Chase() // now enemy knows player exists. will probably "unalert" even slower
+    private void Chase() // now enemy knows player exists. should probably "unalert" even slower
     {
         // TODO: chase player lol
     }

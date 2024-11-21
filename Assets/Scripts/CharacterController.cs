@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 using System;
 
-public class BallController : MonoBehaviour {
+public class CharacterController : MonoBehaviour {
 
     public Transform playerCamera;
     private Vector3 moveDirection;
@@ -113,8 +113,7 @@ public class BallController : MonoBehaviour {
 
     void CheckCanWallClimb()
     {
-        Vector3 forward = Vector3.ProjectOnPlane(playerCamera.forward, Vector3.up);
-        canSwitch = Physics.Raycast(transform.position, forward, playerLength * 0.5f + 0.2f, groundLayer);
+        canSwitch = Physics.Raycast(transform.position, transform.forward, playerLength * 0.5f + 0.2f, wallLayer);
 
         if(canSwitch)
         {

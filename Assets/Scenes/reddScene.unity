@@ -147,7 +147,7 @@ MonoBehaviour:
     m_Bits: 64
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!4 &2692606 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: afc1ab7784bb24ac39272c9b725633f5, type: 3}
@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 1442806854}
   - component: {fileID: 1442806853}
   - component: {fileID: 1442806852}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 1775783488}
   - component: {fileID: 1775783487}
   - component: {fileID: 1775783486}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 1936513891}
   - component: {fileID: 1936513890}
   - component: {fileID: 1936513889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -987,7 +987,7 @@ GameObject:
   - component: {fileID: 2146926061}
   - component: {fileID: 2146926060}
   - component: {fileID: 2146926059}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

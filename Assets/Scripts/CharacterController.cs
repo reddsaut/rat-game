@@ -68,8 +68,11 @@ public class BallController : MonoBehaviour {
         Vector3 forward = Vector3.ProjectOnPlane(playerCamera.forward, Vector3.up);
         forward.Normalize();
         moveDirection = forward * moveForwardBack + playerCamera.right * moveLeftRight;
-
-        rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
+        moveDirection.Normalize();
+        if(moveDirection.magnitude > 0) {
+            transform.forward = moveDirection;
+        }
+        rb.AddForce(moveDirection * speed, ForceMode.Force);
     }
 
     private void CapSpeed()

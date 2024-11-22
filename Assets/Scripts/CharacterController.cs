@@ -47,6 +47,7 @@ public class CharacterController : MonoBehaviour {
                 if(canSwitch && Input.GetKeyDown(KeyCode.H))
                 {
                     state = State.wallclimb;
+                    //Debug.Log("beep");
                 }
                 break;
             case State.wallclimb:
@@ -69,8 +70,14 @@ public class CharacterController : MonoBehaviour {
         forward.Normalize();
         moveDirection = forward * moveForwardBack + playerCamera.right * moveLeftRight;
         moveDirection.Normalize();
-        if(moveDirection.magnitude > 0) {
-            transform.forward = moveDirection;
+        if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
+            float lerpVal = 10f;
+            float angle = Vector3.Angle(transform.forward, moveDirection);
+            if(angle > 170f && angle < 190f)
+            {
+                lerpVal = 20f;
+            }
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, lerpVal * Time.deltaTime);
         }
         rb.AddForce(moveDirection * speed, ForceMode.Force);
     }
@@ -87,7 +94,7 @@ public class CharacterController : MonoBehaviour {
 
     void GroundCheck()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.02f, groundLayer);
 
         if(grounded)
         {
@@ -113,7 +120,9 @@ public class CharacterController : MonoBehaviour {
 
     void CheckCanWallClimb()
     {
-        canSwitch = Physics.Raycast(transform.position, transform.forward, playerLength * 0.5f + 0.2f, wallLayer);
+        canSwitch = Physics.Raycast(transform.position, transform.forward, playerLength * 0.5f + 0.02f, wallLayer);
+
+        Debug.DrawRay(transform.position, transform.forward, Color.red, playerLength * 0.5f + 0.2f);
 
         if(canSwitch)
         {

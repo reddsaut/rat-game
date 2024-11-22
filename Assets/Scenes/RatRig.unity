@@ -337,6 +337,10 @@ PrefabInstance:
       propertyPath: ballCamera
       value: 
       objectReference: {fileID: 79142468}
+    - target: {fileID: 2294666226522150318, guid: c2b3003a3241e4214baf57d77bc7ea1f, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 79142468}
     - target: {fileID: 2564193724636050530, guid: c2b3003a3241e4214baf57d77bc7ea1f, type: 3}
       propertyPath: m_Radius
       value: 30

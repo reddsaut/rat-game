@@ -6,8 +6,10 @@ public class enemyMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public NavMeshAgent agent;
-    public static Transform target;
-    private EnemyVision.State myState;
+    public static Vector3 target;
+    public float speed = 36;
+    
+    // private EnemyVision.State myState;
     
     void Start()
     {
@@ -17,7 +19,7 @@ public class enemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        myState = EnemyVision.myState;
-        agent.SetDestination(target.position);
+        // myState = EnemyVision.myState;
+        agent.SetDestination(target);
     }
 }

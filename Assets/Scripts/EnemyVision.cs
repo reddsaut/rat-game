@@ -4,10 +4,13 @@ using UnityEngine.Serialization;
 public class EnemyVision : MonoBehaviour
 {
     [Tooltip("Body parts of the rat to raycast to")]
-    public Vector3[] goals; 
+    public Vector3[] goals;
+
+    public Vector3[] patrolPoints;
+    [SerializeField] private int patrolPointIndex;
     public float viewDistance;
+    public float howCloseToSwitchPatrolPoint = 10f;
     public float myFOV = 80f;
-    public float speed = 36;
     public GameObject player;
     [FormerlySerializedAs("alertSpeed")] [Tooltip("Seconds until enemy goes from alert to chasing")]
     public float alertTime = 5f;
@@ -16,13 +19,14 @@ public class EnemyVision : MonoBehaviour
     
     private Collider playerCollider;
     private float howAlert; // 0 is not alert, 1 is hyper alert
-    public enum State {Patrol, Alert, Chase};
-    [SerializeField]  public static State myState;
+    private enum State {Patrol, Alert, Chase};
+    [SerializeField] private State myState;
 
     private void Start()
     {
         myState = State.Patrol;
         playerCollider = player.GetComponent<Collider>();
+        enemyMovement.target = patrolPoints[patrolPointIndex];
     }
 
     private void Update()
@@ -58,6 +62,7 @@ public class EnemyVision : MonoBehaviour
         }
         else
         {
+            bool sawAnything = false;
             foreach (Vector3 t in goals)
             {
                 if (Vector3.Angle(transform.position, t) < myFOV)
@@ -67,14 +72,17 @@ public class EnemyVision : MonoBehaviour
                     if (hit.collider == playerCollider)
                     {
                         howAlert += Time.deltaTime / alertTime;
-                        enemyMovement.target.position = hit.point;
-                    } else
-                    {
-                        howAlert -= Time.deltaTime / alertTime / unalertModifier;// becomes alert 4x as fast as reduces alertness
+                        enemyMovement.target = hit.point;
+                        sawAnything = true;
                     }
-                } else
+                }
+            }
+            if (!sawAnything)
+            {
+                howAlert -= Time.deltaTime / alertTime / unalertModifier;
+                if (howAlert < 0)
                 {
-                    howAlert -= Time.deltaTime / alertTime / unalertModifier;
+                    myState = State.Patrol;
                 }
             }
         }
@@ -82,13 +90,12 @@ public class EnemyVision : MonoBehaviour
 
     private void Chase() // now enemy knows player exists. should probably "unalert" even slower
     {
-        // TODO: chase player lol
+        // TODO: kill player
     }
 
     private void Patrol()
     {
-         // TODO: actually patrol lol
-        
+        bool sawAnything = false;
         foreach (Vector3 t in goals)
         {
             if (Vector3.Angle(transform.position, t) < myFOV)
@@ -97,14 +104,27 @@ public class EnemyVision : MonoBehaviour
                 Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance);
                 if (hit.collider == playerCollider)
                 {
+                    sawAnything = true;
                     myState = State.Alert;
                     howAlert = 0.1f;
+                    enemyMovement.target = hit.point;
+                    break;
+                    
                     // TODO: give player notice somehow
                 }
             }
             else
             {
                 Debug.Log("outside of FOV");
+            }
+        }
+
+        if (!sawAnything)
+        {
+            if (Vector3.Distance(transform.position, patrolPoints[patrolPointIndex]) < howCloseToSwitchPatrolPoint)
+            {
+                patrolPointIndex = (patrolPointIndex + 1) % patrolPoints.Length;
+                enemyMovement.target = patrolPoints[patrolPointIndex];
             }
         }
     }

@@ -4,7 +4,7 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
+    private Transform target;
 
     public LayerMask obstacleLayerMask;
 
@@ -19,6 +19,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        target = FindFirstObjectByType<CharacterController>().transform;
         pitch = 45;
         yaw = 0;
     }

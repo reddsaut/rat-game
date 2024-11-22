@@ -6,7 +6,7 @@ using System;
 
 public class CharacterController : MonoBehaviour {
 
-    public Transform playerCamera;
+    private Transform playerCamera;
     private Vector3 moveDirection;
     private Rigidbody rb;
     private enum State {walk, wallclimb};
@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour {
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
+        playerCamera = FindFirstObjectByType<CameraController>().transform;
     }
 
     void Update ()

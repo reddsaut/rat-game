@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     public LayerMask obstacleLayerMask;
 
     public float distance = 10;
+    public float height;
     public float minPitch = -80;
     public float maxPitch = 80;
 
@@ -47,6 +48,7 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(target.position, targetToCamera, out hit, distance, obstacleLayerMask)) {
             transform.position = hit.point;
         }
+        transform.position += height * Vector3.up;
     }
 
 }

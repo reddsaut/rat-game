@@ -12,6 +12,6 @@ public class EnemyWalk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += (transform.rotation * Vector3.forward * speed * Time.deltaTime);
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 }

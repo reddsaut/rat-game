@@ -109,7 +109,7 @@ public class CharacterController : MonoBehaviour {
 
     void GroundCheck()
     {
-        grounded = Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.04f, groundLayer);
+        grounded = Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.1f, groundLayer);
 
         if(grounded)
         {

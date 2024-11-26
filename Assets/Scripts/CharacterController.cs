@@ -33,7 +33,7 @@ public class CharacterController : MonoBehaviour {
 
     void Update ()
     {
-        CheckCanWallClimb();
+        RaycastHit hit = CheckCanWallClimb();
         if(canSwitch)
         {
             Debug.Log("beep");
@@ -49,6 +49,7 @@ public class CharacterController : MonoBehaviour {
                 {
                     state = State.wallclimb;
                     //Debug.Log("beep");
+                    transform.up = hit.normal;
                 }
                 break;
             case State.wallclimb:
@@ -57,6 +58,7 @@ public class CharacterController : MonoBehaviour {
                 if(Input.GetKeyDown(KeyCode.H))
                 {
                     state = State.walk;
+                    transform.up = Vector3.up;
                 }
                 break;
         }
@@ -85,17 +87,29 @@ public class CharacterController : MonoBehaviour {
 
     private void CapSpeed()
     {
-        Vector3 flatVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if(flatVelocity.magnitude > speed)
+        Vector3 velocity;
+        if(rb.useGravity == true) {
+            velocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        } 
+        else
         {
-            Vector3 velocityCap = flatVelocity.normalized * speed;
-            rb.linearVelocity = new Vector3(velocityCap.x, rb.linearVelocity.y, velocityCap.z);
+            velocity = rb.linearVelocity;
+        }
+        
+        if(velocity.magnitude > speed)
+        {
+            Vector3 velocityCap = velocity.normalized * speed;
+            if(rb.useGravity == true) {
+                rb.linearVelocity = new Vector3(velocityCap.x, rb.linearVelocity.y, velocityCap.z);
+            } else {
+                rb.linearVelocity = velocityCap;
+            }
         }
     }
 
     void GroundCheck()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.02f, groundLayer);
+        grounded = Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.04f, groundLayer);
 
         if(grounded)
         {
@@ -113,17 +127,23 @@ public class CharacterController : MonoBehaviour {
         float moveUpDown = Input.GetAxis ("Vertical");
         // i need some sort of info from the wall? so i can find the appropriate horizontal axis
         // also need to find the normal of the wall to do groundchecks to make sure player is staying on the wall
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -transform.up, out hit))
+        {            
+            rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
+            transform.up = hit.normal;
+        }
+
         Vector3 up = Vector3.up;
         Vector3 right = Vector3.right;
         moveDirection = up * moveUpDown; // todo
         rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
     }
 
-    void CheckCanWallClimb()
+    RaycastHit CheckCanWallClimb()
     {
-        canSwitch = Physics.Raycast(transform.position, transform.forward, playerLength * 0.5f + 0.02f, wallLayer);
-
-        Debug.DrawRay(transform.position, transform.forward, Color.red, playerLength * 0.5f + 0.2f);
+        RaycastHit hit;
+        canSwitch = Physics.Raycast(transform.position, transform.forward, out hit,playerLength * 0.5f + 0.02f, groundLayer);
 
         if(canSwitch)
         {
@@ -133,5 +153,6 @@ public class CharacterController : MonoBehaviour {
         {
             // remove visual cue
         }
+        return hit;
     }
 }

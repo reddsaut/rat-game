@@ -120,24 +120,35 @@ public class CharacterController : MonoBehaviour {
             rb.linearDamping = 0;
         }
     }
-
+// This method works very similarly to the ground movement method, the main difference is that in ground movement the rat moves relative to the camera, and in wall movement it moves relative to universal up.
     void WallMovement()
     {
         float moveLeftRight = Input.GetAxis ("Horizontal");
         float moveUpDown = Input.GetAxis ("Vertical");
-        // i need some sort of info from the wall? so i can find the appropriate horizontal axis
-        // also need to find the normal of the wall to do groundchecks to make sure player is staying on the wall
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit))
+        if (Physics.Raycast(transform.position, -transform.up, out hit)) // adjusts position to be in-line with the wall
         {            
             rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
             transform.up = hit.normal;
         }
 
-        Vector3 up = Vector3.up;
-        Vector3 right = Vector3.right;
-        moveDirection = up * moveUpDown; // todo
+        float diff = Mathf.Deg2Rad * Vector3.Angle(Vector3.up, transform.forward);
+
+        Vector3 right = Vector3.RotateTowards(transform.right, Vector3.up, diff, 0);
+        moveDirection = Vector3.up * moveUpDown + right.normalized*moveLeftRight;
         rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
+
+        /*if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
+            float lerpVal = 10f;
+            float angle = Vector3.Angle(transform.forward, moveDirection);
+            if(angle > 170f && angle < 190f)
+            {
+                lerpVal = 20f;
+            }
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, lerpVal * Time.deltaTime);
+        }
+
+        Debug.DrawRay(transform.position, right, Color.red);*/
     }
 
     RaycastHit CheckCanWallClimb()

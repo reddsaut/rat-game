@@ -470,6 +470,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   distance: 5
+  height: 0
   minPitch: -80
   maxPitch: 30
   rotationSpeed: 300
@@ -738,6 +739,18 @@ PrefabInstance:
     - target: {fileID: 648288846325084994, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880843394791957659, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880843394791957659, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
+      propertyPath: airDrag
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880843394791957659, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
+      propertyPath: groundDrag
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8783764077759926205, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: m_Name

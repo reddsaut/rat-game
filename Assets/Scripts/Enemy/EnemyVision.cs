@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 
 public class EnemyVision : MonoBehaviour
 {
     [Tooltip("Body parts of the rat to raycast to")]
     public Vector3[] goals;
-
+    public NavMeshAgent agent;
     public Vector3[] patrolPoints;
     [SerializeField] private int patrolPointIndex;
     public float viewDistance;
@@ -18,6 +19,7 @@ public class EnemyVision : MonoBehaviour
     public float unalertModifier = 4f;
     
     private Collider playerCollider;
+    private Transform playerTransform;
     private float howAlert; // 0 is not alert, 1 is hyper alert
     private enum State {Patrol, Alert, Chase};
     [SerializeField] private State myState;
@@ -26,12 +28,19 @@ public class EnemyVision : MonoBehaviour
     {
         myState = State.Patrol;
         playerCollider = player.GetComponent<Collider>();
+        playerTransform =  player.transform;
         enemyMovement.target = patrolPoints[patrolPointIndex];
+        agent = GetComponent<Transform>().parent.GetComponent<NavMeshAgent>();
+
     }
 
     private void Update()
     {
-        switch (myState)
+        // Debug.Log(howAlert);
+        // goals = new[]{playerTransform.position, playerTransform.position + playerTransform.right, playerTransform.position - playerTransform.right, playerTransform.position + playerTransform.forward,playerTransform.position - playerTransform.forward, playerTransform.position + playerTransform.up,playerTransform.position - playerTransform.up};
+        goals = new[] {playerTransform.position};
+        
+    switch (myState)
         {
             case State.Patrol:
                 Patrol();
@@ -50,7 +59,7 @@ public class EnemyVision : MonoBehaviour
 
     private void Alert()
     {
-        // TODO: go towards suspicious area
+        agent.speed = 1.35f;
         
         if (howAlert > 0.9)
         {
@@ -65,7 +74,11 @@ public class EnemyVision : MonoBehaviour
             bool sawAnything = false;
             foreach (Vector3 t in goals)
             {
-                if (Vector3.Angle(transform.position, t) < myFOV)
+                Vector3 directionToRat = (t - transform.position).normalized;
+                float angleToTarget = Vector3.Angle(transform.forward, directionToRat);
+                // Debug.Log(directionToRat + "," + angleToTarget + ", " +  transform.forward);
+
+                if (angleToTarget < myFOV / 2)
                 {
                     Vector3 directionOfRat = t - transform.position;
                     Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance);
@@ -90,33 +103,42 @@ public class EnemyVision : MonoBehaviour
 
     private void Chase() // now enemy knows player exists. should probably "unalert" even slower
     {
+        agent.speed = 1.5f;
+
         // TODO: kill player
     }
 
     private void Patrol()
     {
+        agent.speed = 1f;
+
         bool sawAnything = false;
         foreach (Vector3 t in goals)
         {
-            if (Vector3.Angle(transform.position, t) < myFOV)
-            {
-                Vector3 directionOfRat = t - transform.position;
-                Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance);
+            Vector3 directionToRat = (t - transform.position).normalized;
+                float angleToTarget = Vector3.Angle(transform.forward, directionToRat);
+                // Debug.Log(directionToRat + "," + angleToTarget + ", " +  transform.forward);
+
+                if (angleToTarget < myFOV / 2)
+                {
+                Physics.Raycast(transform.position, directionToRat, out RaycastHit hit, viewDistance);
+                // Debug.Log(hit.collider);
                 if (hit.collider == playerCollider)
                 {
                     sawAnything = true;
+                    Debug.Log("HYPEPEPEP");
                     myState = State.Alert;
-                    howAlert = 0.1f;
+                    howAlert += Time.deltaTime / alertTime;
                     enemyMovement.target = hit.point;
                     break;
                     
                     // TODO: give player notice somehow
                 }
             }
-            else
-            {
-                Debug.Log("outside of FOV");
-            }
+            // else
+            // {
+            //     Debug.Log("outside of FOV");
+            // }
         }
 
         if (!sawAnything)

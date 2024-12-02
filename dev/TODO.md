@@ -23,6 +23,7 @@
 	Dialogue system
 
 ## Juice
+	Light sources
 	Particle effects
 	Sound
 		DIS recording studio, write a script

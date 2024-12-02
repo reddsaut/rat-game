@@ -12,6 +12,7 @@ public class EnemyVision : MonoBehaviour
     public float viewDistance;
     public float howCloseToSwitchPatrolPoint = 10f;
     public float myFOV = 80f;
+    public float mySpeedMultiplier = 1;
     public GameObject player;
     [FormerlySerializedAs("alertSpeed")] [Tooltip("Seconds until enemy goes from alert to chasing")]
     public float alertTime = 5f;
@@ -59,7 +60,7 @@ public class EnemyVision : MonoBehaviour
 
     private void Alert()
     {
-        agent.speed = 1.35f;
+        agent.speed = 1.35f * mySpeedMultiplier;
         
         if (howAlert > 0.9)
         {
@@ -103,14 +104,14 @@ public class EnemyVision : MonoBehaviour
 
     private void Chase() // now enemy knows player exists. should probably "unalert" even slower
     {
-        agent.speed = 1.5f;
+        agent.speed = 1.5f* mySpeedMultiplier;
 
         // TODO: kill player
     }
 
     private void Patrol()
     {
-        agent.speed = 1f;
+        agent.speed = 1f * mySpeedMultiplier;
 
         bool sawAnything = false;
         foreach (Vector3 t in goals)

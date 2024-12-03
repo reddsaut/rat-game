@@ -131,6 +131,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Printer A prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1034583188881600, guid: 376d9b5720043db4e869a7ef729a88a0, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733581573494508, guid: 376d9b5720043db4e869a7ef729a88a0, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4726944038568568, guid: 376d9b5720043db4e869a7ef729a88a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.42
@@ -187,6 +195,14 @@ PrefabInstance:
     - target: {fileID: 1274134842473906, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
       propertyPath: m_Name
       value: table B Prefab (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274134842473906, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731141572963342, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4753380131583386, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
       propertyPath: m_LocalScale.x
@@ -264,9 +280,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679898738}
     m_Modifications:
+    - target: {fileID: 1369574088503942, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1996866575841564, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
       propertyPath: m_Name
       value: Office table Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996866575841564, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4776074465242192, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
       propertyPath: m_LocalScale.x
@@ -549,9 +573,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679898738}
     m_Modifications:
+    - target: {fileID: 1708046807983816, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1829941066630950, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
       propertyPath: m_Name
       value: Office chair Prefab (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829941066630950, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4732176876777362, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
       propertyPath: m_LocalScale.x
@@ -899,6 +931,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Couch office 2 Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1298271930350214, guid: c928f883aa7cdcf41a6faa362ed971bc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789347308561330, guid: c928f883aa7cdcf41a6faa362ed971bc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4866154646728850, guid: c928f883aa7cdcf41a6faa362ed971bc, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -1028,9 +1068,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679898738}
     m_Modifications:
+    - target: {fileID: 1470685870686288, guid: 2ff73ca776b2c2241834c15caef9521d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1645969296633762, guid: 2ff73ca776b2c2241834c15caef9521d, type: 3}
       propertyPath: m_Name
       value: Little cactus 1 Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1645969296633762, guid: 2ff73ca776b2c2241834c15caef9521d, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4238429397503030, guid: 2ff73ca776b2c2241834c15caef9521d, type: 3}
       propertyPath: m_LocalScale.x
@@ -1274,7 +1322,7 @@ GameObject:
   - component: {fileID: 1013746990}
   - component: {fileID: 1013746989}
   - component: {fileID: 1013746993}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1414,6 +1462,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: paper Prefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1122794294653584, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476775687833494, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4045777154755234, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.33801
@@ -1472,9 +1528,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679898738}
     m_Modifications:
+    - target: {fileID: 1369574088503942, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1996866575841564, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
       propertyPath: m_Name
       value: Office table Prefab (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996866575841564, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4776074465242192, guid: 003f91c8f9aa7d84fa7a00b552f9144a, type: 3}
       propertyPath: m_LocalScale.x
@@ -1603,6 +1667,14 @@ PrefabInstance:
     - target: {fileID: 1122794294653584, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
       propertyPath: m_Name
       value: paper Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122794294653584, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476775687833494, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4045777154755234, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1863,9 +1935,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679898738}
     m_Modifications:
+    - target: {fileID: 1206751434992424, guid: aa937497f8053b449b8c7563868401e1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1334076978321804, guid: aa937497f8053b449b8c7563868401e1, type: 3}
       propertyPath: m_Name
       value: water dispenser prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1334076978321804, guid: aa937497f8053b449b8c7563868401e1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1338053409734416, guid: aa937497f8053b449b8c7563868401e1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990273713866970, guid: aa937497f8053b449b8c7563868401e1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4616437730329900, guid: aa937497f8053b449b8c7563868401e1, type: 3}
       propertyPath: m_LocalScale.x
@@ -1995,6 +2083,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: table B Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1274134842473906, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1731141572963342, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4753380131583386, guid: 54b07283592fc8e45a857de30c6fac3f, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -2123,6 +2219,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Couch office 2 Prefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1298271930350214, guid: c928f883aa7cdcf41a6faa362ed971bc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789347308561330, guid: c928f883aa7cdcf41a6faa362ed971bc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4866154646728850, guid: c928f883aa7cdcf41a6faa362ed971bc, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -2247,9 +2351,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1679898738}
     m_Modifications:
+    - target: {fileID: 1708046807983816, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1829941066630950, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
       propertyPath: m_Name
       value: Office chair Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829941066630950, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4732176876777362, guid: c1e5af2ff42787c4da9691a81d25269e, type: 3}
       propertyPath: m_LocalScale.x
@@ -2328,7 +2440,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1679898738}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2426,6 +2538,14 @@ PrefabInstance:
     - target: {fileID: 1200750484453948, guid: 5df6ef8249eb44e43a04db3cf2824564, type: 3}
       propertyPath: m_Name
       value: partition wall Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200750484453948, guid: 5df6ef8249eb44e43a04db3cf2824564, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1889220859684648, guid: 5df6ef8249eb44e43a04db3cf2824564, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4536134329038122, guid: 5df6ef8249eb44e43a04db3cf2824564, type: 3}
       propertyPath: m_LocalScale.x
@@ -2607,6 +2727,14 @@ PrefabInstance:
     - target: {fileID: 1122794294653584, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
       propertyPath: m_Name
       value: paper Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122794294653584, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476775687833494, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4045777154755234, guid: f8ec7b4856b8eb747ab5935cec767b15, type: 3}
       propertyPath: m_LocalScale.x

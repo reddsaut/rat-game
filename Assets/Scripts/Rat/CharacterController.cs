@@ -50,6 +50,7 @@ public class CharacterController : MonoBehaviour {
                 if(wallTarget && Input.GetKeyDown(KeyCode.H))
                 {
                     state = State.climb;
+                    fromTouchedWall = 0;
                     transform.up = hit.normal;
                     transform.forward = Vector3.up;
                 }

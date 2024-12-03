@@ -23,7 +23,6 @@ public class UiManager : MonoBehaviour
     public void ToggleMenu()
     {
         menu.SetActive(!menu.activeSelf);
-        //playerCamera.isEnabled = !playerCamera.isEnabled;
         if(Time.timeScale == 0)
         {
             Time.timeScale = 1;

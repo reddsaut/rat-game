@@ -18,8 +18,6 @@ public class CameraController : MonoBehaviour
     private float pitch;
     private float yaw;
 
-    public bool isEnabled = true;
-
     void Start()
     {
         target = FindFirstObjectByType<CharacterController>().transform;
@@ -29,14 +27,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float pitchInput = 0;
-        float yawInput = 0;
-        
-        if(isEnabled)
-        {
-            pitchInput = -Input.GetAxisRaw("Mouse Y");
-            yawInput = Input.GetAxisRaw("Mouse X");
-        }
+        float pitchInput = -Input.GetAxisRaw("Mouse Y");
+        float yawInput = Input.GetAxisRaw("Mouse X");
 
         pitch += pitchInput * Time.deltaTime * rotationSpeed;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);

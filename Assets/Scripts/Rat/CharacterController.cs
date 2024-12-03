@@ -51,8 +51,8 @@ public class CharacterController : MonoBehaviour {
                 {
                     state = State.climb;
                     fromTouchedWall = 0;
-                    transform.up = hit.normal;
                     transform.forward = Vector3.up;
+                    transform.up = hit.normal;
                 }
                 break;
             case State.climb:
@@ -65,7 +65,7 @@ public class CharacterController : MonoBehaviour {
                 }
                 if(!GroundCheck())
                 {
-                    if(fromTouchedWall > 0.25) // a little bit of "coyote time" in the fall off the wallclimb
+                    if(fromTouchedWall > 0.5f) // a little bit of "coyote time" in the fall off the wallclimb
                     {
                         state = State.fall;
                         fromTouchedWall = 0;
@@ -141,29 +141,25 @@ public class CharacterController : MonoBehaviour {
         float moveLeftRight = Input.GetAxis ("Horizontal");
         float moveUpDown = Input.GetAxis ("Vertical");
         RaycastHit hit;
+
         if (Physics.Raycast(transform.position, -transform.up, out hit)) // adjusts position to be in-line with the wall
         {            
             rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
-            transform.up = hit.normal;
+
         }
 
         float diff = Mathf.Deg2Rad * Vector3.Angle(Vector3.up, transform.forward);
 
-        Vector3 right = Vector3.RotateTowards(transform.right, Vector3.up, diff, 0);
+        //Vector3 right = Vector3.RotateTowards(transform.right, Vector3.up, diff, 0);
+        Vector3 right = -Vector3.Cross(Vector3.up, hit.normal);
         moveDirection = Vector3.up * moveUpDown + right.normalized*moveLeftRight;
         rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
 
-        /*if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
-            float lerpVal = 10f;
-            float angle = Vector3.Angle(transform.forward, moveDirection);
-            if(angle > 170f && angle < 190f)
-            {
-                lerpVal = 20f;
-            }
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, lerpVal * Time.deltaTime);
+        if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
+            float angle = -Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up);
+            //transform.forward = Vector3.Lerp(transform.forward, moveDirection, lerpVal * Time.deltaTime);
+            transform.RotateAround(transform.position, hit.normal, angle);
         }
-
-        Debug.DrawRay(transform.position, right, Color.red);*/
     }
 
     RaycastHit CheckWall()

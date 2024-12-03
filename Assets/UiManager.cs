@@ -40,4 +40,9 @@ public class UiManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().ToString());
     }
+
+    public void SetRotationSpeed(float speed)
+    {
+        playerCamera.rotationSpeed = speed;
+    }
 }

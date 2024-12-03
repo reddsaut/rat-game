@@ -12,9 +12,7 @@ public class CameraController : MonoBehaviour
     public float height;
     public float minPitch = -80;
     public float maxPitch = 80;
-
     public float rotationSpeed = 300;
-
     private float pitch;
     private float yaw;
 

@@ -9,6 +9,18 @@
 	Can supplement stealth gameplay with art game shit
 
 
+goal: pad the runtime
+
+## Intro
+	fog
+	cutscene state machine
+		within interact distance of particular guy ->
+			cinemachine fixed camera angle
+			dialogue ui
+	people walking in star formation
+		maybe it ends like that too and zooms out
+	people on the right should be textured
+
 ## Cinemachine
 
 
@@ -30,3 +42,6 @@
 			Enemy dialogue
 			Voiceover narration
 		Quick atmospheric bgm
+
+
+Rotating camera in intro

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4856367263909085159}
   - component: {fileID: 6484778620352105332}
   - component: {fileID: 6805077924046845776}
+  - component: {fileID: 6407849732532207514}
   m_Layer: 0
   m_Name: Man
   m_TagString: Untagged
@@ -47,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12
+  spin: 0
+  rotationPerFrame: 2
 --- !u!114 &6805077924046845776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +62,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6602fa5562f144099252016c006fd3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &6407849732532207514
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276949208614548464}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.9045258
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.877018, z: 0}
 --- !u!1001 &1004934383708158808
 PrefabInstance:
   m_ObjectHideFlags: 0

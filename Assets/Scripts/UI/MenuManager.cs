@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    public GameObject MainMenu;
+    public GameObject IntroMenu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,9 +16,14 @@ public class MenuManager : MonoBehaviour
         
     }
 
+    public void ToIntroMenu()
+    {
+        MainMenu.SetActive(false);
+        IntroMenu.SetActive(true);
+    }
+
     public void StartGame()
     {
-        Debug.Log("Start game");
         SceneManager.LoadScene("Intro");
     }
 }

@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class EnemyVision : MonoBehaviour
@@ -18,6 +21,10 @@ public class EnemyVision : MonoBehaviour
     public float alertTime = 5f;
     [Tooltip("How much slower an enemy loses alertness")]
     public float unalertModifier = 4f;
+    private AudioSource audioSource;
+    [SerializedDictionary("Name","Audio")]
+    public SerializedDictionary<string, AudioClip> audioClips;
+    int layerMask; 
     
     private Collider playerCollider;
     private Transform playerTransform;
@@ -27,6 +34,8 @@ public class EnemyVision : MonoBehaviour
 
     private void Start()
     {
+        layerMask =~ LayerMask.GetMask("Enemy");
+        audioSource = GetComponent<AudioSource>();
         myState = State.Patrol;
         playerCollider = player.GetComponent<Collider>();
         playerTransform =  player.transform;
@@ -60,15 +69,12 @@ public class EnemyVision : MonoBehaviour
 
     private void Alert()
     {
-        agent.speed = 1.35f * mySpeedMultiplier;
+        agent.speed = 3f * mySpeedMultiplier;
         
-        if (howAlert > 0.9)
+        if (howAlert > 0.6)
         {
             myState = State.Chase;
-        }
-        else if (howAlert < 0.01)
-        {
-            myState = State.Patrol;
+            // audioSource.PlayOneShot(audioClips["Chase"]);
         }
         else
         {
@@ -76,16 +82,17 @@ public class EnemyVision : MonoBehaviour
             foreach (Vector3 t in goals)
             {
                 Vector3 directionToRat = (t - transform.position).normalized;
-                float angleToTarget = Vector3.Angle(transform.forward, directionToRat);
+                float angleToTarget = Vector3.Angle((transform.forward - transform.up).normalized, directionToRat);
                 // Debug.Log(directionToRat + "," + angleToTarget + ", " +  transform.forward);
 
                 if (angleToTarget < myFOV / 2)
                 {
                     Vector3 directionOfRat = t - transform.position;
-                    Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance);
+                    Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance, layerMask);
                     if (hit.collider == playerCollider)
                     {
                         howAlert += Time.deltaTime / alertTime;
+                        howAlert = Mathf.Min(howAlert, 0.05f);
                         enemyMovement.target = hit.point;
                         sawAnything = true;
                     }
@@ -97,6 +104,8 @@ public class EnemyVision : MonoBehaviour
                 if (howAlert < 0)
                 {
                     myState = State.Patrol;
+                    audioSource.PlayOneShot(audioClips["Nevermind"]);
+                    Debug.Log("nevermind alert");
                 }
             }
         }
@@ -104,9 +113,47 @@ public class EnemyVision : MonoBehaviour
 
     private void Chase() // now enemy knows player exists. should probably "unalert" even slower
     {
-        agent.speed = 1.5f* mySpeedMultiplier;
+        agent.speed = 5* mySpeedMultiplier;
+        myFOV = 120f;
+        
+        {
+            bool sawAnything = false;
+            foreach (Vector3 t in goals)
+            {
+                Vector3 directionToRat = (t - transform.position).normalized;
+                float angleToTarget = Vector3.Angle((transform.forward - transform.up).normalized, directionToRat);
+                // Debug.Log(directionToRat + "," + angleToTarget + ", " +  transform.forward);
+
+                if (angleToTarget < myFOV / 2)
+                {
+                    Vector3 directionOfRat = t - transform.position;
+                    Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance, layerMask);
+                    if (hit.collider == playerCollider)
+                    {
+                        howAlert += Time.deltaTime / alertTime;
+                        howAlert = Mathf.Min(howAlert, 0.05f);
+                        enemyMovement.target = hit.point;
+                        sawAnything = true;
+                    }
+                }
+            }
+            if (!sawAnything)
+            {
+                howAlert -= Time.deltaTime / alertTime / unalertModifier;
+                if (howAlert < 0.1)
+                {
+                    myState = State.Patrol;
+                    audioSource.PlayOneShot(audioClips["Nevermind"]);
+                    Debug.Log("nevermind Chase");
+                }
+            }
+        }
 
         // TODO: kill player
+        if (Vector3.Distance(transform.position, goals[0]) < 3)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void Patrol()
@@ -122,28 +169,26 @@ public class EnemyVision : MonoBehaviour
 
                 if (angleToTarget < myFOV / 2)
                 {
-                Physics.Raycast(transform.position, directionToRat, out RaycastHit hit, viewDistance);
+                Physics.Raycast(transform.position, directionToRat, out RaycastHit hit, viewDistance, layerMask);
                 // Debug.Log(hit.collider);
                 if (hit.collider == playerCollider)
                 {
                     sawAnything = true;
-                    Debug.Log("HYPEPEPEP");
+                    // Debug.Log("HYPEPEPEP");
                     myState = State.Alert;
+                    audioSource.PlayOneShot(audioClips["Alert"], volumeScale:0.1f);
+                    Debug.Log("HEY! patrol");
                     howAlert += Time.deltaTime / alertTime;
                     enemyMovement.target = hit.point;
                     break;
                     
-                    // TODO: give player notice somehow
                 }
             }
-            // else
-            // {
-            //     Debug.Log("outside of FOV");
-            // }
         }
 
         if (!sawAnything)
         {
+            enemyMovement.target = patrolPoints[patrolPointIndex];
             if (Vector3.Distance(transform.position, patrolPoints[patrolPointIndex]) < howCloseToSwitchPatrolPoint)
             {
                 patrolPointIndex = (patrolPointIndex + 1) % patrolPoints.Length;

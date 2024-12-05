@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -24,7 +23,8 @@ public class EnemyVision : MonoBehaviour
     private AudioSource audioSource;
     [SerializedDictionary("Name","Audio")]
     public SerializedDictionary<string, AudioClip> audioClips;
-    int layerMask; 
+    int layerMask;
+    private float timeSinceLastSpotted;
     
     private Collider playerCollider;
     private Transform playerTransform;
@@ -91,6 +91,7 @@ public class EnemyVision : MonoBehaviour
                     Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance, layerMask);
                     if (hit.collider == playerCollider)
                     {
+                        timeSinceLastSpotted = 0;
                         howAlert += Time.deltaTime / alertTime;
                         howAlert = Mathf.Min(howAlert, 0.05f);
                         enemyMovement.target = hit.point;
@@ -100,8 +101,9 @@ public class EnemyVision : MonoBehaviour
             }
             if (!sawAnything)
             {
+                timeSinceLastSpotted += Time.deltaTime / unalertModifier;
                 howAlert -= Time.deltaTime / alertTime / unalertModifier;
-                if (howAlert < 0)
+                if (howAlert < 0 && timeSinceLastSpotted > 1)
                 {
                     myState = State.Patrol;
                     audioSource.PlayOneShot(audioClips["Nevermind"]);
@@ -121,15 +123,15 @@ public class EnemyVision : MonoBehaviour
             foreach (Vector3 t in goals)
             {
                 Vector3 directionToRat = (t - transform.position).normalized;
-                float angleToTarget = Vector3.Angle((transform.forward - transform.up).normalized, directionToRat);
+                float angleToTarget = Mathf.Min(Vector3.Angle(transform.forward, directionToRat), Vector3.Angle(-transform.up, directionToRat)); // always also looking down lol
                 // Debug.Log(directionToRat + "," + angleToTarget + ", " +  transform.forward);
 
                 if (angleToTarget < myFOV / 2)
                 {
-                    Vector3 directionOfRat = t - transform.position;
-                    Physics.Raycast(transform.position, directionOfRat, out RaycastHit hit, viewDistance, layerMask);
+                    Physics.Raycast(transform.position, directionToRat, out RaycastHit hit, viewDistance, layerMask);
                     if (hit.collider == playerCollider)
                     {
+                        timeSinceLastSpotted = 0;
                         howAlert += Time.deltaTime / alertTime;
                         howAlert = Mathf.Min(howAlert, 0.05f);
                         enemyMovement.target = hit.point;
@@ -159,12 +161,13 @@ public class EnemyVision : MonoBehaviour
     private void Patrol()
     {
         agent.speed = 1f * mySpeedMultiplier;
-
         bool sawAnything = false;
+        
         foreach (Vector3 t in goals)
         {
             Vector3 directionToRat = (t - transform.position).normalized;
-                float angleToTarget = Vector3.Angle(transform.forward, directionToRat);
+                float angleToTarget = Mathf.Min(Vector3.Angle(transform.forward, directionToRat), Vector3.Angle(-transform.up, directionToRat)); // always also looking down lol
+                
                 // Debug.Log(directionToRat + "," + angleToTarget + ", " +  transform.forward);
 
                 if (angleToTarget < myFOV / 2)

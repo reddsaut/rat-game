@@ -16,7 +16,7 @@ public class CharacterController : MonoBehaviour {
     public float speed = 7;
     public float groundDrag = 5;
     public float airDrag = 7;
-    bool wallTarget = false; 
+    bool wallTarget = false;
 
     [Header("Ground Check")]
     public float playerHeight = 1;
@@ -26,49 +26,47 @@ public class CharacterController : MonoBehaviour {
     bool grounded;
 
     float fromTouchedWall = 0;
+    Vector3 wallNormal;
+
+    Animator animatorRat;
 
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
         playerCamera = FindFirstObjectByType<CameraController>().transform;
+        animatorRat = GetComponentInChildren<Animator>();
     }
 
     void Update ()
     {
         CapSpeed();
+        animatorRat.SetFloat("speed", rb.linearVelocity.magnitude);
         switch (state)
         {
             case State.walk:
                 RaycastHit hit = CheckWall();
-                rb.useGravity = true;
-                rb.linearDamping = groundDrag;
                 if(!GroundCheck())
                 {
-                    state = State.fall;
+                    SwitchToFallState();
                 }
                 HandleMovement();
-                if(wallTarget && Input.GetKeyDown(KeyCode.H))
+                if(wallTarget && Input.GetKeyDown(KeyCode.Space))
                 {
-                    state = State.climb;
-                    fromTouchedWall = 0;
-                    transform.forward = Vector3.up;
-                    transform.up = hit.normal;
+                    wallNormal = hit.normal;
+                    SwitchToClimbState();
                 }
                 break;
             case State.climb:
-                rb.useGravity = false;
                 WallMovement();
-                if(Input.GetKeyDown(KeyCode.H))
+                if(Input.GetKeyDown(KeyCode.Space))
                 {
-                    state = State.fall;
-                    transform.up = Vector3.up;
+                    SwitchToFallState();
                 }
                 if(!GroundCheck())
                 {
                     if(fromTouchedWall > 0.5f) // a little bit of "coyote time" in the fall off the wallclimb
                     {
-                        state = State.fall;
-                        fromTouchedWall = 0;
+                        SwitchToFallState();
                     }
                     else
                     {
@@ -77,12 +75,10 @@ public class CharacterController : MonoBehaviour {
                 }
                 break;
             case State.fall:
-                rb.useGravity = true;
-                rb.linearDamping = 0;
                 HandleMovement();
                 if(GroundCheck())
                 {
-                    state = State.walk;
+                    SwitchToWalkState();
                 }
                 break;
         }
@@ -97,13 +93,8 @@ public class CharacterController : MonoBehaviour {
         moveDirection = forward * moveForwardBack + playerCamera.right * moveLeftRight;
         moveDirection.Normalize();
         if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
-            float lerpVal = 10f;
-            float angle = Vector3.Angle(transform.forward, moveDirection);
-            if(angle > 170f && angle < 190f)
-            {
-                lerpVal = 20f;
-            }
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, lerpVal * Time.deltaTime);
+            Quaternion lookAtQuat = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtQuat, 20 * Time.deltaTime);
         }
         rb.AddForce(moveDirection * speed, ForceMode.Force);
     }
@@ -145,20 +136,19 @@ public class CharacterController : MonoBehaviour {
         if (Physics.Raycast(transform.position, -transform.up, out hit)) // adjusts position to be in-line with the wall
         {            
             rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
+            wallNormal = hit.normal;
 
         }
 
-        float diff = Mathf.Deg2Rad * Vector3.Angle(Vector3.up, transform.forward);
-
-        //Vector3 right = Vector3.RotateTowards(transform.right, Vector3.up, diff, 0);
-        Vector3 right = -Vector3.Cross(Vector3.up, hit.normal);
-        moveDirection = Vector3.up * moveUpDown + right.normalized*moveLeftRight;
+        Vector3 right = -Vector3.Cross(Vector3.up, wallNormal); // the wall's right
+        moveDirection = Vector3.up * moveUpDown + right.normalized * moveLeftRight;
         rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
 
         if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
-            float angle = -Vector3.SignedAngle(transform.forward, moveDirection, Vector3.up);
-            //transform.forward = Vector3.Lerp(transform.forward, moveDirection, lerpVal * Time.deltaTime);
-            transform.RotateAround(transform.position, hit.normal, angle);
+            // float angle = Vector3.SignedAngle(moveDirection, transform.forward, wallNormal);
+            // transform.RotateAround(transform.position, wallNormal, angle);
+            Quaternion lookAtQuat = Quaternion.LookRotation(moveDirection, wallNormal);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtQuat, 20 * Time.deltaTime);
         }
     }
 
@@ -177,5 +167,27 @@ public class CharacterController : MonoBehaviour {
             // remove visual cue
         }
         return hit;
+    }
+
+    void SwitchToFallState() {
+        rb.useGravity = true;
+        rb.linearDamping = 0;
+        fromTouchedWall = 0;
+        transform.up = Vector3.up;
+        state = State.fall;
+    }
+
+    void SwitchToWalkState() {
+        rb.useGravity = true;
+        rb.linearDamping = groundDrag;
+        state = State.walk;
+    }
+
+    void SwitchToClimbState() {
+        rb.useGravity = false;
+        rb.linearDamping = groundDrag;
+        fromTouchedWall = 0;
+        transform.up = wallNormal;
+        state = State.climb;
     }
 }

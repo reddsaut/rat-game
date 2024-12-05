@@ -4,12 +4,13 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 using System;
 
-public class CharacterController : MonoBehaviour {
+public class CharacterController : MonoBehaviour
+{
 
     private Transform playerCamera;
     private Vector3 moveDirection;
     private Rigidbody rb;
-    private enum State {walk, climb, fall};
+    private enum State { walk, climb, fall };
     private State state = State.walk;
 
     [Header("Movement")]
@@ -27,17 +28,16 @@ public class CharacterController : MonoBehaviour {
 
     float fromTouchedWall = 0;
     Vector3 wallNormal;
-
     Animator animatorRat;
 
-    void Start ()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerCamera = FindFirstObjectByType<CameraController>().transform;
         animatorRat = GetComponentInChildren<Animator>();
     }
 
-    void Update ()
+    void Update()
     {
         CapSpeed();
         animatorRat.SetFloat("speed", rb.linearVelocity.magnitude);
@@ -45,12 +45,12 @@ public class CharacterController : MonoBehaviour {
         {
             case State.walk:
                 RaycastHit hit = CheckWall();
-                if(!GroundCheck())
+                if (!GroundCheck())
                 {
                     SwitchToFallState();
                 }
                 HandleMovement();
-                if(wallTarget && Input.GetKeyDown(KeyCode.Space))
+                if (wallTarget && Input.GetKeyDown(KeyCode.Space))
                 {
                     wallNormal = hit.normal;
                     SwitchToClimbState();
@@ -58,13 +58,13 @@ public class CharacterController : MonoBehaviour {
                 break;
             case State.climb:
                 WallMovement();
-                if(Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     SwitchToFallState();
                 }
-                if(!GroundCheck())
+                if (!GroundCheck())
                 {
-                    if(fromTouchedWall > 0.5f) // a little bit of "coyote time" in the fall off the wallclimb
+                    if (fromTouchedWall > 0.5f) // a little bit of "coyote time" in the fall off the wallclimb
                     {
                         SwitchToFallState();
                     }
@@ -76,7 +76,7 @@ public class CharacterController : MonoBehaviour {
                 break;
             case State.fall:
                 HandleMovement();
-                if(GroundCheck())
+                if (GroundCheck())
                 {
                     SwitchToWalkState();
                 }
@@ -86,13 +86,14 @@ public class CharacterController : MonoBehaviour {
 
     private void HandleMovement()
     {
-        float moveLeftRight = Input.GetAxis ("Horizontal");
-        float moveForwardBack = Input.GetAxis ("Vertical");
+        float moveLeftRight = Input.GetAxis("Horizontal");
+        float moveForwardBack = Input.GetAxis("Vertical");
         Vector3 forward = Vector3.ProjectOnPlane(playerCamera.forward, Vector3.up);
         forward.Normalize();
         moveDirection = forward * moveForwardBack + playerCamera.right * moveLeftRight;
         moveDirection.Normalize();
-        if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
+        if (moveDirection.magnitude > 0)
+        { // rotate the model to the vector of movement
             Quaternion lookAtQuat = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookAtQuat, 20 * Time.deltaTime);
         }
@@ -102,20 +103,24 @@ public class CharacterController : MonoBehaviour {
     private void CapSpeed()
     {
         Vector3 velocity;
-        if(rb.useGravity == true) {
+        if (rb.useGravity == true)
+        {
             velocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        } 
+        }
         else
         {
             velocity = rb.linearVelocity;
         }
-        
-        if(velocity.magnitude > speed)
+
+        if (velocity.magnitude > speed)
         {
             Vector3 velocityCap = velocity.normalized * speed;
-            if(rb.useGravity == true) {
+            if (rb.useGravity == true)
+            {
                 rb.linearVelocity = new Vector3(velocityCap.x, rb.linearVelocity.y, velocityCap.z);
-            } else {
+            }
+            else
+            {
                 rb.linearVelocity = velocityCap;
             }
         }
@@ -126,15 +131,15 @@ public class CharacterController : MonoBehaviour {
         return Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.1f, groundLayer);
     }
 
-// This method works very similarly to the ground movement method, the main difference is that in ground movement the rat moves relative to the camera, and in wall movement it moves relative to universal up.
+    // This method works very similarly to the ground movement method, the main difference is that in ground movement the rat moves relative to the camera, and in wall movement it moves relative to universal up.
     void WallMovement()
     {
-        float moveLeftRight = Input.GetAxis ("Horizontal");
-        float moveUpDown = Input.GetAxis ("Vertical");
+        float moveLeftRight = Input.GetAxis("Horizontal");
+        float moveUpDown = Input.GetAxis("Vertical");
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, -transform.up, out hit)) // adjusts position to be in-line with the wall
-        {            
+        {
             rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
             wallNormal = hit.normal;
 
@@ -144,7 +149,8 @@ public class CharacterController : MonoBehaviour {
         moveDirection = Vector3.up * moveUpDown + right.normalized * moveLeftRight;
         rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
 
-        if(moveDirection.magnitude > 0) { // rotate the model to the vector of movement
+        if (moveDirection.magnitude > 0)
+        { // rotate the model to the vector of movement
             // float angle = Vector3.SignedAngle(moveDirection, transform.forward, wallNormal);
             // transform.RotateAround(transform.position, wallNormal, angle);
             Quaternion lookAtQuat = Quaternion.LookRotation(moveDirection, wallNormal);
@@ -155,9 +161,9 @@ public class CharacterController : MonoBehaviour {
     RaycastHit CheckWall()
     {
         RaycastHit hit;
-        wallTarget = Physics.Raycast(transform.position, transform.forward, out hit,playerLength * 0.5f + 0.02f, groundLayer);
+        wallTarget = Physics.Raycast(transform.position, transform.forward, out hit, playerLength * 0.5f + 0.02f, groundLayer);
 
-        if(wallTarget)
+        if (wallTarget)
         {
             // some visual cue
             Debug.Log("beep");
@@ -169,7 +175,8 @@ public class CharacterController : MonoBehaviour {
         return hit;
     }
 
-    void SwitchToFallState() {
+    void SwitchToFallState()
+    {
         rb.useGravity = true;
         rb.linearDamping = 0;
         fromTouchedWall = 0;
@@ -177,13 +184,15 @@ public class CharacterController : MonoBehaviour {
         state = State.fall;
     }
 
-    void SwitchToWalkState() {
+    void SwitchToWalkState()
+    {
         rb.useGravity = true;
         rb.linearDamping = groundDrag;
         state = State.walk;
     }
 
-    void SwitchToClimbState() {
+    void SwitchToClimbState()
+    {
         rb.useGravity = false;
         rb.linearDamping = groundDrag;
         fromTouchedWall = 0;

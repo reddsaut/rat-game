@@ -18,6 +18,6 @@ public class Portal : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // fine to not have condition because the only thing that can get here with a collider is the player
-        SceneManager.LoadScene("Office");
+        SceneManager.LoadScene("New");
     }
 }

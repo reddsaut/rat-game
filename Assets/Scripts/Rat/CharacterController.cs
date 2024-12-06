@@ -29,6 +29,7 @@ public class CharacterController : MonoBehaviour
     float fromTouchedWall = 0;
     Vector3 wallNormal;
     Animator animatorRat;
+    float coyoteTime = 0.3f;
 
     void Start()
     {
@@ -64,7 +65,7 @@ public class CharacterController : MonoBehaviour
                 }
                 if (!GroundCheck())
                 {
-                    if (fromTouchedWall > 0.5f) // a little bit of "coyote time" in the fall off the wallclimb
+                    if (fromTouchedWall > coyoteTime) // a little bit of "coyote time" in the fall off the wallclimb
                     {
                         SwitchToFallState();
                     }
@@ -88,10 +89,13 @@ public class CharacterController : MonoBehaviour
     {
         float moveLeftRight = Input.GetAxis("Horizontal");
         float moveForwardBack = Input.GetAxis("Vertical");
+        
         Vector3 forward = Vector3.ProjectOnPlane(playerCamera.forward, Vector3.up);
         forward.Normalize();
+
         moveDirection = forward * moveForwardBack + playerCamera.right * moveLeftRight;
         moveDirection.Normalize();
+
         if (moveDirection.magnitude > 0)
         { // rotate the model to the vector of movement
             Quaternion lookAtQuat = Quaternion.LookRotation(moveDirection, Vector3.up);
@@ -100,9 +104,11 @@ public class CharacterController : MonoBehaviour
         rb.AddForce(moveDirection * speed, ForceMode.Force);
     }
 
+    // this method makes sure the model doesn't accelerate into the sun. groundDrag caps this a good bit but isn't perfect.
     private void CapSpeed()
     {
         Vector3 velocity;
+        // the useGravity checks make sure that the rat falls as expected, but also that speed can be effectively capped while the rat is walking on walls.
         if (rb.useGravity == true)
         {
             velocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
@@ -151,8 +157,6 @@ public class CharacterController : MonoBehaviour
 
         if (moveDirection.magnitude > 0)
         { // rotate the model to the vector of movement
-            // float angle = Vector3.SignedAngle(moveDirection, transform.forward, wallNormal);
-            // transform.RotateAround(transform.position, wallNormal, angle);
             Quaternion lookAtQuat = Quaternion.LookRotation(moveDirection, wallNormal);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookAtQuat, 20 * Time.deltaTime);
         }
@@ -163,24 +167,19 @@ public class CharacterController : MonoBehaviour
         RaycastHit hit;
         wallTarget = Physics.Raycast(transform.position, transform.forward, out hit, playerLength * 0.5f + 0.02f, groundLayer);
 
-        if (wallTarget)
-        {
-            // some visual cue
-            Debug.Log("beep");
-        }
-        else
-        {
-            // remove visual cue
-        }
+        // consider: adding some sort of wallclimb indicator
         return hit;
     }
 
     void SwitchToFallState()
     {
-        rb.useGravity = true;
         rb.linearDamping = 0;
         fromTouchedWall = 0;
-        transform.up = Vector3.up;
+        if(rb.useGravity == false)
+        { // i stopped setting transform directions because it leads to some bad situations. loving transform.lookAt and setting with Quaternions
+            transform.LookAt(transform.position - transform.up, Vector3.up);
+            rb.useGravity = true;
+        }
         state = State.fall;
     }
 
@@ -196,7 +195,7 @@ public class CharacterController : MonoBehaviour
         rb.useGravity = false;
         rb.linearDamping = groundDrag;
         fromTouchedWall = 0;
-        transform.up = wallNormal;
+        transform.LookAt(transform.position + Vector3.up, wallNormal);
         state = State.climb;
     }
 }

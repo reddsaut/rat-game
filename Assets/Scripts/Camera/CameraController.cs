@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        target = FindFirstObjectByType<CharacterController>().transform;
+        target = FindFirstObjectByType<RatController>().transform;
         pitch = -20;
         yaw = 0;
     }

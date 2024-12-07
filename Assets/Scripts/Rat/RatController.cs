@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 using System;
 
-public class CharacterController : MonoBehaviour
+public class RatController : MonoBehaviour
 {
 
     private Transform playerCamera;
@@ -29,6 +29,7 @@ public class CharacterController : MonoBehaviour
     float fromTouchedWall = 0;
     Vector3 wallNormal;
     Animator animatorRat;
+    UiManager uiManager;
     float coyoteTime = 0.3f;
 
     void Start()
@@ -36,6 +37,7 @@ public class CharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerCamera = FindFirstObjectByType<CameraController>().transform;
         animatorRat = GetComponentInChildren<Animator>();
+        uiManager = FindFirstObjectByType<UiManager>();
     }
 
     void Update()
@@ -197,5 +199,16 @@ public class CharacterController : MonoBehaviour
         fromTouchedWall = 0;
         transform.LookAt(transform.position + Vector3.up, wallNormal);
         state = State.climb;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        ManController manController = other.GetComponent<ManController>();
+        // death logic
+        if (manController != null)
+        {
+            Debug.Log("Died");
+            uiManager.Death();
+        }
     }
 }

@@ -9,6 +9,10 @@ public class TextGenerator : MonoBehaviour
     public static List<GameObject> textObjects;
     public Font thisFont;
     private int messageIndex;
+
+    public float height;
+
+    public float fontScale;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,13 +33,16 @@ public class TextGenerator : MonoBehaviour
             Text text = thisText.AddComponent<Text>();
             text.font = thisFont;
             text.text = messages[messageIndex];
+            text.alignment = TextAnchor.MiddleCenter;
             messageIndex++;
-            text.fontSize = 4;
+            text.fontSize = 100;
+            thisText.transform.localScale = new Vector3(fontScale, fontScale, fontScale);
+
 
             RectTransform thisRectTransform = text.GetComponent<RectTransform>();
             thisRectTransform = text.GetComponent<RectTransform>();
             thisRectTransform.localPosition = new Vector3(0, 0, 0);
-            thisRectTransform.sizeDelta = new Vector2(40, 40);
+            thisRectTransform.sizeDelta = new Vector2(2000, 1000);
 
             textObjects.Add(textObject);
         }
@@ -49,7 +56,7 @@ public class TextGenerator : MonoBehaviour
         // text drift
         foreach (var textObject in textObjects)
         {
-            textObject.transform.position = new Vector3(textObject.transform.position.x, transform.position.y, textObject.transform.position.z);
+            textObject.transform.position = new Vector3(textObject.transform.position.x, transform.position.y + height, textObject.transform.position.z);
             textObject.transform.position += (Vector3.back * Time.deltaTime * 20);
         }
     }

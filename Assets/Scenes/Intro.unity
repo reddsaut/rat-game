@@ -759,7 +759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 648288846325084994, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34
+      value: 4.6530004
       objectReference: {fileID: 0}
     - target: {fileID: 648288846325084994, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -892,9 +892,21 @@ PrefabInstance:
       value: TextGenerator
       objectReference: {fileID: 0}
     - target: {fileID: 6591451031173741364, guid: 05642f7522c9148c79769e715805437d, type: 3}
+      propertyPath: height
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6591451031173741364, guid: 05642f7522c9148c79769e715805437d, type: 3}
+      propertyPath: fontSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6591451031173741364, guid: 05642f7522c9148c79769e715805437d, type: 3}
       propertyPath: thisFont
       value: 
       objectReference: {fileID: 12800000, guid: d51a1566e22724300bc6168eadc2d9c0, type: 3}
+    - target: {fileID: 6591451031173741364, guid: 05642f7522c9148c79769e715805437d, type: 3}
+      propertyPath: fontScale
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6591451031173741364, guid: 05642f7522c9148c79769e715805437d, type: 3}
       propertyPath: textObject
       value: 

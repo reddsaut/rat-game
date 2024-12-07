@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7434059986172634837}
   - component: {fileID: 3577935071845921910}
   - component: {fileID: 2373427043331928129}
-  - component: {fileID: 2355626111895713555}
+  - component: {fileID: 2153763166812282054}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -72,16 +72,13 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!70 &2355626111895713555
-CapsuleCollider2D:
+--- !u!136 &2153763166812282054
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4839045157188098987}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -90,25 +87,14 @@ CapsuleCollider2D:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.0045909584, y: 0.84037083}
-  m_Size: {x: 0.36293334, y: 1.7945348}
-  m_Direction: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 1.88
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.90000004, z: 0}
 --- !u!1001 &538991604684825161
 PrefabInstance:
   m_ObjectHideFlags: 0

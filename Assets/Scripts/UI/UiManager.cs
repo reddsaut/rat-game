@@ -6,11 +6,13 @@ public class UiManager : MonoBehaviour
 {
     public GameObject menu;
     public GameObject controlScreen;
+    public GameObject deathScreen;
     private CameraController playerCamera;
     void Start()
     {
         menu.SetActive(false);
         controlScreen.SetActive(false);
+        deathScreen.SetActive(false);
         playerCamera = FindFirstObjectByType<CameraController>();
     }
 
@@ -59,5 +61,12 @@ public class UiManager : MonoBehaviour
     public void ToggleControlsScreen()
     {
         controlScreen.SetActive(!controlScreen.activeSelf);
+    }
+
+    public void Death()
+    {
+        Time.timeScale = 0.01f;
+        deathScreen.SetActive(true);
+
     }
 }

@@ -3,27 +3,31 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject MainMenu;
-    public GameObject IntroMenu;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject mainMenu;
+    public GameObject introMenu;
+    public GameObject controlsScreen;
+
     void Start()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        mainMenu.SetActive(true);
+        introMenu.SetActive(false);
+        controlsScreen.SetActive(false);
     }
 
     public void ToIntroMenu()
     {
-        MainMenu.SetActive(false);
-        IntroMenu.SetActive(true);
+        mainMenu.SetActive(false);
+        introMenu.SetActive(true);
     }
 
     public void StartGame()
     {
         SceneManager.LoadScene("Intro");
+    }
+
+    public void ToggleControls()
+    {
+        mainMenu.SetActive(!mainMenu.activeSelf);
+        controlsScreen.SetActive(!controlsScreen.activeSelf);
     }
 }

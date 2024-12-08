@@ -6,7 +6,6 @@ using System;
 
 public class RatController : MonoBehaviour
 {
-
     private Transform playerCamera;
     private Vector3 moveDirection;
     private Rigidbody rb;
@@ -203,12 +202,15 @@ public class RatController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        ManController manController = other.GetComponent<ManController>();
         // death logic
-        if (manController != null)
+        if (other.tag == "death")
         {
             Debug.Log("Died");
             uiManager.Death();
+        }
+        if(other.tag == "win")
+        {
+            Debug.Log("Win!");
         }
     }
 }

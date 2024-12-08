@@ -10,6 +10,7 @@ public class UiManager : MonoBehaviour
     private CameraController playerCamera;
     void Start()
     {
+        Time.timeScale = 1;
         menu.SetActive(false);
         controlScreen.SetActive(false);
         deathScreen.SetActive(false);
@@ -40,7 +41,7 @@ public class UiManager : MonoBehaviour
 
     public void QuitToMenu()
     {
-        SceneManager.LoadScene("Intro");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void Quit()
@@ -67,6 +68,5 @@ public class UiManager : MonoBehaviour
     {
         Time.timeScale = 0.01f;
         deathScreen.SetActive(true);
-
     }
 }

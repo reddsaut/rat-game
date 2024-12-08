@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1;
         mainMenu.SetActive(true);
         introMenu.SetActive(false);
         controlsScreen.SetActive(false);

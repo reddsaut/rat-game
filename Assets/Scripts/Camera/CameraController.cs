@@ -49,5 +49,4 @@ public class CameraController : MonoBehaviour
         }
         transform.position += height * Vector3.up;
     }
-
 }

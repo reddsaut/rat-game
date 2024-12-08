@@ -202,12 +202,11 @@ public class RatController : MonoBehaviour
         // death logic
         if (other.CompareTag("death"))
         {
-            Debug.Log("Died");
             uiManager.Death();
         }
         if (other.CompareTag("win"))
         {
-            Debug.Log("Win!");
+            uiManager.Win();
         }
     }
 }

@@ -20,6 +20,6 @@ public class enemyMovement : MonoBehaviour
     void Update()
     {
         // myState = EnemyVision.myState;
-        agent.SetDestination(target);
+        // agent.SetDestination(target);
     }
 }

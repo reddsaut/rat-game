@@ -39,8 +39,8 @@ public class EnemyVision : MonoBehaviour
         myState = State.Patrol;
         playerCollider = player.GetComponent<Collider>();
         playerTransform =  player.transform;
-        enemyMovement.target = patrolPoints[patrolPointIndex];
         agent = GetComponent<Transform>().parent.GetComponent<NavMeshAgent>();
+        agent.destination = patrolPoints[patrolPointIndex];
 
     }
 
@@ -94,7 +94,7 @@ public class EnemyVision : MonoBehaviour
                         timeSinceLastSpotted = 0;
                         howAlert += Time.deltaTime / alertTime;
                         howAlert = Mathf.Min(howAlert, 0.05f);
-                        enemyMovement.target = hit.point;
+                        agent.destination = hit.point;
                         sawAnything = true;
                     }
                 }
@@ -134,7 +134,7 @@ public class EnemyVision : MonoBehaviour
                         timeSinceLastSpotted = 0;
                         howAlert += Time.deltaTime / alertTime;
                         howAlert = Mathf.Min(howAlert, 0.05f);
-                        enemyMovement.target = hit.point;
+                        agent.destination = hit.point;
                         sawAnything = true;
                     }
                 }
@@ -182,7 +182,7 @@ public class EnemyVision : MonoBehaviour
                     audioSource.PlayOneShot(audioClips["Alert"], volumeScale:0.1f);
                     Debug.Log("HEY! patrol");
                     howAlert += Time.deltaTime / alertTime;
-                    enemyMovement.target = hit.point;
+                    agent.destination = hit.point;
                     break;
                     
                 }
@@ -191,11 +191,11 @@ public class EnemyVision : MonoBehaviour
 
         if (!sawAnything)
         {
-            enemyMovement.target = patrolPoints[patrolPointIndex];
+            agent.destination = patrolPoints[patrolPointIndex];
             if (Vector3.Distance(transform.position, patrolPoints[patrolPointIndex]) < howCloseToSwitchPatrolPoint)
             {
                 patrolPointIndex = (patrolPointIndex + 1) % patrolPoints.Length;
-                enemyMovement.target = patrolPoints[patrolPointIndex];
+                agent.destination = patrolPoints[patrolPointIndex];
             }
         }
     }

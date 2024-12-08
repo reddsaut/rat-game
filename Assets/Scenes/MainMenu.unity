@@ -2485,7 +2485,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Developers:\nBen Snyder\nredding sauter\nLlum Acosta\n\nSelect UI assets
+  m_text: "Developers:\nben snyder\nredding sauter\nllum acosta\n\nSelect UI assets
     from kenney.nl\n\nMade for Game Development: Programming and Practice at DIS
     Copenhagen under Benno L\xFCders"
   m_isRightToLeft: 0

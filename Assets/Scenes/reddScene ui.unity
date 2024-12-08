@@ -265,10 +265,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 4839045157188098987, guid: c2694014749923b4e864e2434ef7d12a, type: 3}
-      propertyPath: m_TagString
-      value: death
-      objectReference: {fileID: 0}
     - target: {fileID: 7434059986172634837, guid: c2694014749923b4e864e2434ef7d12a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.26155

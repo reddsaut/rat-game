@@ -9,6 +9,7 @@ public class UiManager : MonoBehaviour
     public GameObject deathScreen;
     public GameObject winScreen;
     private CameraController playerCamera;
+    private bool win = false;
     void Start()
     {
         Time.timeScale = 1;
@@ -68,13 +69,17 @@ public class UiManager : MonoBehaviour
 
     public void Death()
     {
-        Time.timeScale = 0.01f;
-        deathScreen.SetActive(true);
+        if (!win)
+        {
+            Time.timeScale = 0.01f;
+            deathScreen.SetActive(true);
+        }
     }
 
     public void Win()
     {
         Time.timeScale = 0.02f;
         winScreen.SetActive(true);
+        win = true;
     }
 }

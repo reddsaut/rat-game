@@ -150,12 +150,6 @@ public class EnemyVision : MonoBehaviour
                 }
             }
         }
-
-        // TODO: kill player
-        if (Vector3.Distance(transform.position, goals[0]) < 3)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
     }
 
     private void Patrol()

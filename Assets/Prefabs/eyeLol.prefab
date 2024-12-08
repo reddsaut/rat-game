@@ -122,14 +122,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goals: []
+  agent: {fileID: 0}
   patrolPoints:
   - {x: 2, y: 0.4, z: 3}
   - {x: -2, y: 0.4, z: -2}
   patrolPointIndex: 0
   viewDistance: 25
-  howCloseToSwitchPatrolPoint: 2
+  howCloseToSwitchPatrolPoint: 11
   myFOV: 100
+  mySpeedMultiplier: 1
   player: {fileID: 0}
   alertTime: 5
   unalertModifier: 4
+  audioClips:
+    _serializedList: []
   myState: 0

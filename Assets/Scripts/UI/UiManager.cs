@@ -19,7 +19,7 @@ public class UiManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause"))
         {
             ToggleMenu();
         }
@@ -29,7 +29,7 @@ public class UiManager : MonoBehaviour
     {
         menu.SetActive(!menu.activeSelf);
         controlScreen.SetActive(false); // this should always be off unless info button pressed
-        if(Time.timeScale == 0)
+        if (Time.timeScale == 0)
         {
             Time.timeScale = 1;
         }

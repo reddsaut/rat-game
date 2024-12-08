@@ -1,5 +1,4 @@
-﻿// <copyright file="CameraController.cs" company="DIS Copenhagen">
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class CameraController : MonoBehaviour
@@ -35,16 +34,15 @@ public class CameraController : MonoBehaviour
         yaw += yawInput * Time.deltaTime * rotationSpeed;
         Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up);
 
-        Vector3 offset = new Vector3(0,1,-1);
+        Vector3 offset = new Vector3(0, 1, -1);
         offset = pitchRotation * offset;
         offset = yawRotation * offset;
 
-        transform.position = target.position + offset * distance;
-        transform.rotation = Quaternion.LookRotation(-offset, Vector3.up);
+        transform.SetPositionAndRotation(target.position + offset * distance, Quaternion.LookRotation(-offset, Vector3.up));
 
-        RaycastHit hit;
         Vector3 targetToCamera = transform.position - target.position;
-        if (Physics.Raycast(target.position, targetToCamera, out hit, distance, obstacleLayerMask)) {
+        if (Physics.Raycast(target.position, targetToCamera, out RaycastHit hit, distance, obstacleLayerMask))
+        {
             transform.position = hit.point;
         }
         transform.position += height * Vector3.up;

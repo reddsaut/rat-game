@@ -23,13 +23,12 @@ public class RatController : MonoBehaviour
     public float playerLength = 1;
     public LayerMask groundLayer;
     public LayerMask wallLayer;
-    bool grounded;
 
     float fromTouchedWall = 0;
     Vector3 wallNormal;
     Animator animatorRat;
     UiManager uiManager;
-    float coyoteTime = 0.3f;
+    readonly float coyoteTime = 0.3f;
 
     void Start()
     {
@@ -90,7 +89,7 @@ public class RatController : MonoBehaviour
     {
         float moveLeftRight = Input.GetAxis("Horizontal");
         float moveForwardBack = Input.GetAxis("Vertical");
-        
+
         Vector3 forward = Vector3.ProjectOnPlane(playerCamera.forward, Vector3.up);
         forward.Normalize();
 
@@ -143,9 +142,8 @@ public class RatController : MonoBehaviour
     {
         float moveLeftRight = Input.GetAxis("Horizontal");
         float moveUpDown = Input.GetAxis("Vertical");
-        RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, -transform.up, out hit)) // adjusts position to be in-line with the wall
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit)) // adjusts position to be in-line with the wall
         {
             rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
             wallNormal = hit.normal;
@@ -165,8 +163,7 @@ public class RatController : MonoBehaviour
 
     RaycastHit CheckWall()
     {
-        RaycastHit hit;
-        wallTarget = Physics.Raycast(transform.position, transform.forward, out hit, playerLength * 0.5f + 0.02f, groundLayer);
+        wallTarget = Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, playerLength * 0.5f + 0.02f, groundLayer);
 
         // consider: adding some sort of wallclimb indicator
         return hit;
@@ -176,7 +173,7 @@ public class RatController : MonoBehaviour
     {
         rb.linearDamping = 0;
         fromTouchedWall = 0;
-        if(rb.useGravity == false)
+        if (rb.useGravity == false)
         { // i stopped setting transform directions because it leads to some bad situations. loving transform.lookAt and setting with Quaternions
             transform.LookAt(transform.position - transform.up, Vector3.up);
             rb.useGravity = true;
@@ -203,12 +200,12 @@ public class RatController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         // death logic
-        if (other.tag == "death")
+        if (other.CompareTag("death"))
         {
             Debug.Log("Died");
             uiManager.Death();
         }
-        if(other.tag == "win")
+        if (other.CompareTag("win"))
         {
             Debug.Log("Win!");
         }

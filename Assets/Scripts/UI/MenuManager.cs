@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             currentScreen.SetActive(false);
             mainMenu.SetActive(true);
@@ -33,7 +33,7 @@ public class MenuManager : MonoBehaviour
     {
         mainMenu.SetActive(!mainMenu.activeSelf);
         introMenu.SetActive(!introMenu.activeSelf);
-        if(introMenu.activeSelf)
+        if (introMenu.activeSelf)
         {
             currentScreen = introMenu;
         }
@@ -48,7 +48,7 @@ public class MenuManager : MonoBehaviour
     {
         mainMenu.SetActive(!mainMenu.activeSelf);
         controlsScreen.SetActive(!controlsScreen.activeSelf);
-        if(controlsScreen.activeSelf)
+        if (controlsScreen.activeSelf)
         {
             currentScreen = controlsScreen;
         }
@@ -58,7 +58,7 @@ public class MenuManager : MonoBehaviour
     {
         mainMenu.SetActive(!mainMenu.activeSelf);
         creditsScreen.SetActive(!controlsScreen.activeSelf);
-        if(creditsScreen.activeSelf)
+        if (creditsScreen.activeSelf)
         {
             currentScreen = creditsScreen;
         }

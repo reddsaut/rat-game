@@ -201,7 +201,7 @@ public class RatController : MonoBehaviour
         state = State.climb;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         ManController manController = other.GetComponent<ManController>();
         // death logic

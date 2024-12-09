@@ -29587,7 +29587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3880843394791957659, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: speed
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3880843394791957659, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: airDrag
@@ -29595,7 +29595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3880843394791957659, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: groundDrag
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8783764077759926205, guid: 65c495faa7be14b77b30f9db7bd1c17e, type: 3}
       propertyPath: m_Name

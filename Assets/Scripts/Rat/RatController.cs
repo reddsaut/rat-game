@@ -143,9 +143,9 @@ public class RatController : MonoBehaviour
         float moveLeftRight = Input.GetAxis("Horizontal");
         float moveUpDown = Input.GetAxis("Vertical");
 
-        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit)) // adjusts position to be in-line with the wall
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, playerHeight * 3f)) // adjusts position to be in-line with the wall
         {
-            rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.15f, 5f * Time.deltaTime);
+            rb.position = Vector3.Lerp(rb.position, hit.point + hit.normal * 0.01f, 5f * Time.deltaTime);
             wallNormal = hit.normal;
 
         }
@@ -175,6 +175,7 @@ public class RatController : MonoBehaviour
         fromTouchedWall = 0;
         if (rb.useGravity == false)
         { // i stopped setting transform directions because it leads to some bad situations. loving transform.lookAt and setting with Quaternions
+            WallclimbExitSpeedCap(); // hotfix to a build issue
             transform.LookAt(transform.position - transform.up, Vector3.up);
             rb.useGravity = true;
         }
@@ -208,5 +209,12 @@ public class RatController : MonoBehaviour
         {
             uiManager.Win();
         }
+    }
+
+    void WallclimbExitSpeedCap()
+    {
+        Vector3 velocity = rb.linearVelocity;
+        velocity = new Vector3(velocity.x, 0.1f * velocity.y,velocity.z);
+        rb.linearVelocity = velocity;
     }
 }

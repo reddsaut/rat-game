@@ -14,8 +14,8 @@ public class RatController : MonoBehaviour
 
     [Header("Movement")]
     public float speed = 7;
-    public float groundDrag = 5;
-    public float airDrag = 7;
+    public float groundDrag = 1;
+    public float airDrag = 6;
     bool wallTarget = false;
 
     [Header("Ground Check")]
